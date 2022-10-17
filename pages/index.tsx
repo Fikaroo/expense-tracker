@@ -3,6 +3,7 @@ import Head from "next/head";
 import { Header, Stats, Transaction, Transactions } from "../components";
 import { useAppDispatch } from "../redux/hooks";
 import { setAmount } from "../redux/budgetSlice";
+import { NextPage } from "next";
 
 // export const getServerSideProps = async () => {
 //   const getBudget = await prisma.budget.findMany();
@@ -23,7 +24,7 @@ import { setAmount } from "../redux/budgetSlice";
 //   const data = await res.data;
 //   console.log(data);
 // };
-const Home = ({ budget }) => {
+const Home: NextPage = () => {
   // const dispatch = useAppDispatch();
   // dispatch(setAmount(budget));
   return (
