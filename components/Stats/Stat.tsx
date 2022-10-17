@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useAppSelector } from "../../redux/hooks";
-import Budget from "../Budget/Budget";
 import StatsItem from "./StatsItem";
 
 const Stats = () => {
@@ -10,7 +9,7 @@ const Stats = () => {
   let totalIncome = 0;
   let totalExpense = 0;
 
-  transactions.map((transaction: any) => {
+  transactions.map((transaction) => {
     transaction.transactionType === "Income"
       ? (totalIncome += transaction.amount)
       : (totalExpense += transaction.amount);
