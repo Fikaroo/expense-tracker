@@ -9,7 +9,7 @@ const Stats = () => {
   let totalIncome = 0;
   let totalExpense = 0;
 
-  transactions.map((transaction) => {
+  transactions.map((transaction: any) => {
     transaction.transactionType === "Income"
       ? (totalIncome += transaction.amount)
       : (totalExpense += transaction.amount);
