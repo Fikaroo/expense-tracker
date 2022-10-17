@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 const prisma = new PrismaClient();
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const addBudget = async (req: NextApiRequest, res: NextApiResponse) => {
   const budgetData = req.body;
   console.log(budgetData);
 
@@ -13,3 +13,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   res.json(saveBudget);
 };
+
+export default addBudget;
