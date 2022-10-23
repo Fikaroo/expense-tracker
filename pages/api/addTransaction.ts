@@ -14,6 +14,7 @@ const addTransaction = async (req: NextApiRequest, res: NextApiResponse) => {
       type: transactionData.data.transactionType,
     },
   });
+  res.json(saveTransaction);
 };
 
 export default addTransaction;

@@ -11,7 +11,7 @@ const deleteTransaction = async (req: NextApiRequest, res: NextApiResponse) => {
         id,
       },
     });
-    res.status(200);
+    res.status(200).json(delTransaction);
   } catch (error) {
     res
       .status(403)
