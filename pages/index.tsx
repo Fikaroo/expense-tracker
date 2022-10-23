@@ -8,8 +8,8 @@ import { addTransaction } from "../redux/transactionSlice";
 
 export const getServerSideProps = async () => {
   const transactionData = await prisma.transactions.findMany({
-    skip: 0,
-    take: 10,
+    // skip: 0,
+    // take: 10,
     select: {
       id: true,
       name: true,
