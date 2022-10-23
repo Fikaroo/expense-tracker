@@ -14,8 +14,6 @@ const transactionSlice = createSlice({
   initialState,
   reducers: {
     addTransaction: (state, action: PayloadAction<any>) => {
-      const id = nanoid();
-      action.payload.id = id;
       state.transactions.push(action.payload);
     },
     deleteTransaction: (state, action: PayloadAction<any>) => {

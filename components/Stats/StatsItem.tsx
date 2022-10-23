@@ -19,7 +19,21 @@ const StatsItem: FC<StatsItemProps> = ({
     <div className="stat">
       {title && <div className="stat-title">{title}</div>}
       {figure && <div className="stat-figure">{figure}</div>}
-      {value && <div className="stat-value">{value}</div>}
+      {value && title == "Total Expense" ? (
+        <div className="stat-value text-error">
+          {value === 0 ? value : -value}
+        </div>
+      ) : title == "Total Income" ? (
+        <div className="stat-value text-success">{value}</div>
+      ) : (
+        <div
+          className={`stat-value ${
+            Number(value) > 0 ? "text-success" : "text-error"
+          }`}
+        >
+          {value}
+        </div>
+      )}
       {desc && <div className="stat-desc text-base">{desc}</div>}
       {action && <div className="stat-action">{action}</div>}
     </div>

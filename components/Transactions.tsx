@@ -1,16 +1,23 @@
 import { TrashIcon } from "@heroicons/react/24/outline";
+import axios from "axios";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { deleteTransaction } from "../redux/transactionSlice";
+// import { deleteTransaction } from "../redux/transactionSlice";
+// Call this function whenever you want to
+// refresh props!
 
 const Transactions = () => {
   const transactions = useAppSelector(
     (state) => state.transaction.transactions
   );
   const [filteredData, setfilteredData] = useState(transactions || []);
-
+  const [isLoading, setLoading] = useState(false);
+  const router = useRouter();
   useEffect(() => {
+    setLoading(true);
     setfilteredData(transactions);
+    setLoading(false);
   }, [transactions]);
 
   const searchTransaction = (searchValue: string) => {
@@ -26,7 +33,17 @@ const Transactions = () => {
     }
   };
 
+  const deleteTransaction = async (id: any) => {
+    await axios
+      .post("/api/deleteTransaction", {
+        id: id,
+      })
+      .then((res) => window.location.reload());
+  };
   const dispatch = useAppDispatch();
+
+  if (isLoading) return <p>Loading...</p>;
+  if (!filteredData) return <p>No Transaction Data</p>;
 
   return (
     <section className="w-full overflow-hidden">
@@ -72,12 +89,12 @@ const Transactions = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredData.map((transaction: any, idx: number) => (
+            {filteredData.map((transaction: any) => (
               <tr key={transaction.id}>
-                <th>{idx + 1}</th>
-                <td>{transaction.transactionName}</td>
+                <th>{transaction.id}</th>
+                <td>{transaction.name}</td>
                 <td>{transaction.desc}</td>
-                <td>{transaction.transactionDate}</td>
+                <td>{transaction.date}</td>
                 <td>
                   {transaction.amount === 0 ? (
                     <span
@@ -90,12 +107,12 @@ const Transactions = () => {
                   ) : (
                     <span
                       className={`badge ${
-                        transaction.transactionType === "Income"
+                        transaction.type === "Income"
                           ? "badge-primary"
                           : "badge-error"
                       } sm:text-base text-white p-2 sm:p-3`}
                     >
-                      {transaction.transactionType === "Income"
+                      {transaction.type === "Income"
                         ? `+ ${transaction.amount} ₼`
                         : `- ${transaction.amount} ₼`}
                     </span>
@@ -104,7 +121,7 @@ const Transactions = () => {
                 <td className="w-1/12">
                   <TrashIcon
                     className="w-8 md:w-10 p-2 bg-error text-white rounded-md cursor-pointer hover:bg-opacity-90"
-                    onClick={() => dispatch(deleteTransaction(transaction.id))}
+                    onClick={() => deleteTransaction(transaction.id)}
                   />
                 </td>
               </tr>

@@ -10,9 +10,9 @@ const Stats = () => {
   let totalExpense = 0;
 
   transactions.map((transaction: any) => {
-    transaction.transactionType === "Income"
-      ? (totalIncome += transaction.amount)
-      : (totalExpense += transaction.amount);
+    transaction.type === "Income"
+      ? (totalIncome += Number(transaction.amount))
+      : (totalExpense += Number(transaction.amount));
   });
 
   const benefit = totalIncome - totalExpense;

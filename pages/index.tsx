@@ -2,31 +2,49 @@ import prisma from "../lib/prisma";
 import Head from "next/head";
 import { Header, Stats, Transaction, Transactions } from "../components";
 import { useAppDispatch } from "../redux/hooks";
-import { setAmount } from "../redux/budgetSlice";
-import { NextPage } from "next";
+import axios from "axios";
+import { FC, useEffect } from "react";
+import { addTransaction } from "../redux/transactionSlice";
 
-// export const getServerSideProps = async () => {
-//   const getBudget = await prisma.budget.findMany();
-//   const amount = getBudget[0].amount.toJSON();
+export const getServerSideProps = async () => {
+  const transactionData = await prisma.transactions.findMany({
+    select: {
+      id: true,
+      name: true,
+      desc: true,
+      date: true,
+      amount: true,
+      type: true,
+    },
+  });
 
-//   return {
-//     props: {
-//       budget: amount,
-//     },
-//   };
-// };
+  const transactions = transactionData.map((transaction) => {
+    return {
+      ...transaction,
+      amount: transaction.amount.toString(),
+    };
+  });
 
-// const setBudget = async (budget: number) => {
-//   const res = await axios.post("/api/addBudget", {
-//     amount: budget,
-//   });
+  return {
+    props: {
+      transactions: transactions,
+    },
+  };
+};
 
-//   const data = await res.data;
-//   console.log(data);
-// };
-const Home: NextPage = () => {
-  // const dispatch = useAppDispatch();
-  // dispatch(setAmount(budget));
+type NextPage = {
+  transactions: any;
+};
+
+const Home: FC<NextPage> = ({ transactions }) => {
+  const dispatch = useAppDispatch();
+  console.log(transactions);
+  useEffect(() => {
+    transactions.map((transaction: any) =>
+      dispatch(addTransaction(transaction))
+    );
+  }, [dispatch, transactions]);
+
   return (
     <div className="font-poppins bg-gradient-to-r from-indigo-500 to-purple-500 text-white gr w-full h-screen font-medium">
       <Head>

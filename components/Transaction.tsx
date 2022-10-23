@@ -7,7 +7,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAppDispatch } from "../redux/hooks";
 import { addTransaction } from "../redux/transactionSlice";
-
+import axios from "axios";
+import { useRouter } from "next/router";
 type FormValues = {
   transactionName: string;
   desc: string;
@@ -25,16 +26,30 @@ const schema = yup.object().shape({
 });
 
 const Transanction = () => {
-  const [startDate, setStartDate] = useState(new Date());
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSuccess, setSuccess] = useState(false);
-  const [isShow, setShow] = useState(false);
+  const postTransaction = async (data: object) => {
+    axios
+      .post("/api/addTransaction", { data })
+      .then((res) => {
+        "Transactiion added";
+        setTimeout(() => {
+          window.location.reload();
+        }, 1300);
+      })
+      .catch((err) => console.log("Transactiion not added", err));
+  };
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<FormValues>({ resolver: yupResolver(schema) });
+
+  const [startDate, setStartDate] = useState(new Date());
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSuccess, setSuccess] = useState(false);
+  const [isShow, setShow] = useState(false);
+
   const dispatch = useAppDispatch();
   const onSubmit = handleSubmit((data) => {
     if (data) {
@@ -42,9 +57,10 @@ const Transanction = () => {
       setShow(true);
       setTimeout(() => setSuccess(false), 1000);
       setTimeout(() => setShow(false), 1500);
-      dispatch(addTransaction(data));
+      // dispatch(addTransaction(data));
       setIsModalOpen(!isModalOpen);
       reset();
+      postTransaction(data);
     }
   });
 
@@ -52,7 +68,7 @@ const Transanction = () => {
     <section className="w-full flex justify-center items-center ">
       {isShow && (
         <div
-          className={`alert alert-success absolute top-10 max-w-sm shadow-lg transition-all ${
+          className={`fixed alert alert-success top-10 max-w-sm shadow-lg transition-all ${
             isSuccess
               ? "animate-in duration-500 slide-in-from-top-10"
               : "animate-out duration-500 slide-out-to-top-32"
