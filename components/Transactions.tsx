@@ -51,11 +51,11 @@ const Transactions = () => {
         <h2 className="text-3xl font-semibold">Transactions</h2>
       </div>
 
-      <div className="flex justify-between items-end px-4">
-        <div>
+      <div className="flex justify-end items-end px-4">
+        <div className=" hidden">
           Show{" "}
           <select
-            className="select select-sm bg-white text-black"
+            className="select  select-sm bg-white text-black"
             defaultValue="10"
           >
             <option value="10">10</option>
@@ -80,7 +80,6 @@ const Transactions = () => {
         <table className="table table-compact sm:table-normal w-full text-black">
           <thead>
             <tr>
-              <th></th>
               <th>Name</th>
               <th>Desc</th>
               <th>Date</th>
@@ -91,7 +90,6 @@ const Transactions = () => {
           <tbody>
             {filteredData.map((transaction: any) => (
               <tr key={transaction.id}>
-                <th>{transaction.id}</th>
                 <td>{transaction.name}</td>
                 <td>{transaction.desc}</td>
                 <td>{transaction.date}</td>
@@ -128,6 +126,14 @@ const Transactions = () => {
             ))}
           </tbody>
         </table>
+      </div>
+      <div className="w-full flex justify-center py-5 hidden">
+        <div className="btn-group">
+          <button className="btn btn-active">1</button>
+          <button className="btn btn-accent">2</button>
+          <button className="btn btn-accent">3</button>
+          <button className="btn btn-accent">4</button>
+        </div>
       </div>
     </section>
   );

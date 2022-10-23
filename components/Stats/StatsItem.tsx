@@ -28,7 +28,11 @@ const StatsItem: FC<StatsItemProps> = ({
       ) : (
         <div
           className={`stat-value ${
-            Number(value) > 0 ? "text-success" : "text-error"
+            Number(value) === 0
+              ? ""
+              : Number(value) > 0
+              ? "text-success"
+              : "text-error"
           }`}
         >
           {value}

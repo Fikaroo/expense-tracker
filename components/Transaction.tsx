@@ -33,7 +33,7 @@ const Transanction = () => {
         "Transactiion added";
         setTimeout(() => {
           window.location.reload();
-        }, 1300);
+        }, 300);
       })
       .catch((err) => console.log("Transactiion not added", err));
   };
